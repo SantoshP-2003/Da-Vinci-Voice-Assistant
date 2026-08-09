@@ -1,0 +1,304 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-app: #000000;
+  --bg-app-gradient: radial-gradient(at 0% 0%, rgba(20, 20, 25, 0.6) 0px, transparent 50%),
+                     radial-gradient(at 50% 0%, rgba(35, 35, 40, 0.15) 0px, transparent 50%),
+                     radial-gradient(at 100% 100%, rgba(5, 5, 8, 0.8) 0px, transparent 50%);
+  --bg-sidebar: rgba(9, 9, 11, 0.8);
+  --bg-header: #08080a;
+  --border-color: rgba(255, 255, 255, 0.05);
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  
+  --bg-user-bubble: #27272a;
+  --text-user-bubble: #ffffff;
+  --border-user-bubble: rgba(255, 255, 255, 0.05);
+  
+  --bg-input: rgba(18, 18, 24, 0.85);
+  --border-input: rgba(255, 255, 255, 0.06);
+  
+  --grid-line: rgba(255, 255, 255, 0.015);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  
+  --markdown-pre-bg: rgba(15, 23, 42, 0.8);
+  --markdown-code-bg: rgba(255, 255, 255, 0.1);
+  --markdown-text: #f8fafc;
+
+  --color-accent: #ffffff;
+  --color-accent-dim: rgba(255, 255, 255, 0.1);
+  --color-accent-hover: #e4e4e7;
+  
+  --fluid-orb-bg: linear-gradient(-45deg, #101014, #1c1c24, #272730, #08080a);
+  --fluid-orb-border: rgba(255, 255, 255, 0.08);
+  --fluid-orb-glow: rgba(255, 255, 255, 0.06);
+  --fluid-orb-inner: rgba(255, 255, 255, 0.08);
+  --fluid-orb-shadow: rgba(0, 0, 0, 0.7);
+  
+  --fluid-orb-think-bg: linear-gradient(-45deg, #181822, #2d2d42, #182a44, #080c14);
+  --fluid-orb-think-border: rgba(255, 255, 255, 0.25);
+  --fluid-orb-think-glow: rgba(255, 255, 255, 0.15);
+}
+
+:root.light {
+  --bg-app: #ffffff;
+  --bg-app-gradient: radial-gradient(at 0% 0%, rgba(240, 240, 245, 0.6) 0px, transparent 50%),
+                     radial-gradient(at 50% 0%, rgba(220, 220, 230, 0.15) 0px, transparent 50%),
+                     radial-gradient(at 100% 100%, rgba(245, 245, 248, 0.8) 0px, transparent 50%);
+  --bg-sidebar: rgba(244, 244, 245, 0.85);
+  --bg-header: #fafafa;
+  --border-color: rgba(9, 9, 11, 0.08);
+  --text-primary: #09090b;
+  --text-secondary: #71717a;
+  
+  --bg-user-bubble: #f4f4f5;
+  --text-user-bubble: #09090b;
+  --border-user-bubble: rgba(9, 9, 11, 0.08);
+  
+  --bg-input: #ffffff;
+  --border-input: rgba(9, 9, 11, 0.08);
+  
+  --grid-line: rgba(9, 9, 11, 0.025);
+  --scrollbar-thumb: rgba(9, 9, 11, 0.15);
+  
+  --markdown-pre-bg: rgba(244, 244, 245, 0.8);
+  --markdown-code-bg: rgba(9, 9, 11, 0.05);
+  --markdown-text: #09090b;
+
+  --color-accent: #09090b;
+  --color-accent-dim: rgba(9, 9, 11, 0.1);
+  --color-accent-hover: #1b1b22;
+  
+  --fluid-orb-bg: linear-gradient(-45deg, #f4f4f5, #e4e4e7, #d4d4d8, #fafafa);
+  --fluid-orb-border: rgba(9, 9, 11, 0.08);
+  --fluid-orb-glow: rgba(9, 9, 11, 0.04);
+  --fluid-orb-inner: rgba(9, 9, 11, 0.08);
+  --fluid-orb-shadow: rgba(0, 0, 0, 0.08);
+  
+  --fluid-orb-think-bg: linear-gradient(-45deg, #e4e4e7, #d4d4d8, #a1a1aa, #f4f4f5);
+  --fluid-orb-think-border: rgba(9, 9, 11, 0.25);
+  --fluid-orb-think-glow: rgba(9, 9, 11, 0.12);
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-app);
+    background-image: var(--bg-app-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Custom sleek scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+  }
+}
+
+.glass-panel {
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-input {
+  background: var(--bg-input);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-input);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.markdown-body {
+  color: var(--markdown-text) !important;
+  transition: color 0.3s ease;
+}
+
+.markdown-body pre {
+  background-color: var(--markdown-pre-bg) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.markdown-body code:not(pre code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background-color: var(--markdown-code-bg);
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.markdown-body p {
+  margin-bottom: 1rem;
+}
+
+/* Custom Font Families */
+.chat-font-baskerville {
+  font-family: 'Libre Baskerville', 'Baskerville', 'Georgia', serif !important;
+}
+
+.chat-font-times {
+  font-family: 'Times New Roman', 'Times', serif !important;
+}
+
+.chat-font-comicsans {
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif !important;
+}
+
+/* Equalizer / Audio Wave animation */
+@keyframes wave-bounce {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-wave-bar {
+  animation: wave-bounce 1s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* Custom glowing effects and buttons */
+.btn-glow {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.glow-logo {
+  text-shadow: 0 0 8px var(--text-primary), 0 0 15px var(--border-color);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* AI Welcome Orb and Ring Animations */
+@keyframes orb-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px var(--fluid-orb-glow)) drop-shadow(0 0 40px var(--fluid-orb-glow));
+  }
+  50% {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 35px var(--fluid-orb-glow)) drop-shadow(0 0 60px var(--fluid-orb-glow));
+  }
+}
+
+@keyframes orb-rotate-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orb-rotate-counter {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.ai-orb-container {
+  animation: orb-pulse 4s ease-in-out infinite;
+}
+
+.ai-orb-ring-1 {
+  animation: orb-rotate-clockwise 22s linear infinite;
+}
+
+.ai-orb-ring-2 {
+  animation: orb-rotate-counter 16s linear infinite;
+}
+
+.ai-orb-ring-think {
+  animation: orb-rotate-clockwise 1.2s linear infinite;
+}
+
+/* Grid overlay background */
+.grid-pattern {
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  transition: background-image 0.3s ease;
+}
+
+/* 3D Fluid Morphing Orb */
+@keyframes morph-orb {
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+  33% {
+    border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
+  }
+  66% {
+    border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+  }
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.fluid-orb {
+  background: var(--fluid-orb-bg);
+  background-size: 400% 400%;
+  animation: morph-orb 8s ease-in-out infinite, gradient-shift 14s ease-in-out infinite;
+  box-shadow: 
+    0 0 35px var(--fluid-orb-glow),
+    inset 0 0 20px var(--fluid-orb-inner),
+    inset 0 0 45px var(--fluid-orb-shadow);
+  border: 1px solid var(--fluid-orb-border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.fluid-orb-think {
+  background: var(--fluid-orb-think-bg);
+  background-size: 400% 400%;
+  animation: morph-orb 2s ease-in-out infinite, gradient-shift 4s ease-in-out infinite;
+  box-shadow: 
+    0 0 45px var(--fluid-orb-think-glow),
+    inset 0 0 25px var(--fluid-orb-inner),
+    inset 0 0 50px var(--fluid-orb-shadow);
+  border: 1px solid var(--fluid-orb-think-border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}

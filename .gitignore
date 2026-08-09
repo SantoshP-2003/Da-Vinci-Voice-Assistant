@@ -1,0 +1,18 @@
+# Python environment files
+backend/venv/
+backend/__pycache__/
+backend/**/*.pyc
+backend/data/history.db
+backend/data/*.db
+backend/static/audio/*.mp3
+backend/static/audio/*.webm
+
+# Node dependency files
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Log files and cache
+.DS_Store
+Thumbs.db
+*.log
