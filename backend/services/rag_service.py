@@ -24,7 +24,7 @@ vectorstore = Chroma(
 def get_retriever(session_id: str):
     return vectorstore.as_retriever(
         search_kwargs={
-            "k": 3,
+            "k": 15,
             "filter": {"sessionId": session_id}
         }
     )

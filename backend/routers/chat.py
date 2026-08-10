@@ -12,6 +12,9 @@ def chat_text(request: ChatTextRequest):
         retriever = rag_service.get_retriever(request.sessionId)
         relevant_docs = retriever.invoke(request.queryText)
         
+        # Sort documents by their original chunk index to preserve logical ordering
+        relevant_docs.sort(key=lambda d: d.metadata.get("chunk_index", 0))
+        
         context_text = "\n\n".join([doc.page_content for doc in relevant_docs])
         
         # Deduplicate citations

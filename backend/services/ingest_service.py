@@ -25,4 +25,7 @@ def ingest_file(tmp_path: str, file_name: str, session_id: str, subject: str):
         doc.metadata["subject"] = subject
         
     chunks = text_splitter.split_documents(docs)
+    for idx, chunk in enumerate(chunks):
+        chunk.metadata["chunk_index"] = idx
+        
     add_documents(chunks)

@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from huggingface_hub import InferenceClient
 
 hf_token = os.environ.get("HF_TOKEN")
@@ -22,15 +23,25 @@ def generate_chat_response(prompt: str) -> str:
         "but keep the response completely plain and elegant."
     )
         
-    response = hf_client.chat_completion(
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt}
-        ],
-        model="Qwen/Qwen2.5-7B-Instruct",
-        max_tokens=1000
-    )
-    return response.choices[0].message.content
+    for attempt in range(6):
+        try:
+            response = hf_client.chat_completion(
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": prompt}
+                ],
+                model="Qwen/Qwen2.5-7B-Instruct",
+                max_tokens=1000
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            err_msg = str(e)
+            is_loading = any(phrase in err_msg.lower() for phrase in ["loading", "503", "temporarily unavailable", "overloaded"])
+            if is_loading and attempt < 5:
+                print(f"Hugging Face model loading/overloaded (attempt {attempt + 1}/6). Retrying in 4 seconds...")
+                time.sleep(4)
+            else:
+                raise e
 
 def translate_to_english(text: str) -> str:
     if not hf_client or not text.strip():
@@ -42,16 +53,23 @@ def translate_to_english(text: str) -> str:
         "If the text is already in English, return it exactly as it is."
     )
     
-    try:
-        response = hf_client.chat_completion(
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": text}
-            ],
-            model="Qwen/Qwen2.5-7B-Instruct",
-            max_tokens=500
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"Translation error: {e}")
-        return ""
+    for attempt in range(6):
+        try:
+            response = hf_client.chat_completion(
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": text}
+                ],
+                model="Qwen/Qwen2.5-7B-Instruct",
+                max_tokens=500
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            err_msg = str(e)
+            is_loading = any(phrase in err_msg.lower() for phrase in ["loading", "503", "temporarily unavailable", "overloaded"])
+            if is_loading and attempt < 5:
+                print(f"Hugging Face translation model loading (attempt {attempt + 1}/6). Retrying in 4 seconds...")
+                time.sleep(4)
+            else:
+                print(f"Translation error: {e}")
+                return ""
